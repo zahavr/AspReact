@@ -1,11 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Diagnostics;
+﻿using Domain;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Persistance
+namespace Persistence
 {
 	public class DataContext : DbContext
-    {
+	{
 		public DataContext([NotNull] DbContextOptions options) : base(options)
 		{
 		}
