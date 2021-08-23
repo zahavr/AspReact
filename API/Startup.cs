@@ -1,4 +1,7 @@
 using API.Extensions;
+using API.Middleware;
+using Application.Activities;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -18,14 +21,17 @@ namespace API
 
 		public void ConfigureServices(IServiceCollection services)
 		{
+			services.AddControllers().AddFluentValidation(config => {
+				config.RegisterValidatorsFromAssemblyContaining<Create>();
+			});
 			services.AddApplicationServices(_configuration);
 		}
 
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 		{
+			app.UseMiddleware<ExceptionMiddleware>();
 			if (env.IsDevelopment())
 			{
-				app.UseDeveloperExceptionPage();
 				app.UseSwagger();
 				app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"));
 			}
