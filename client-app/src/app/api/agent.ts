@@ -2,6 +2,7 @@ import axios, {AxiosResponse, AxiosError} from 'axios';
 import { toast } from 'react-toastify';
 import { history } from '../..';
 import {Activity} from '../models/activity';
+import { IUser, IUserFormValues } from '../models/user';
 import { store } from '../stores/store';
 
 const sleep = (delay: number) => {
@@ -68,8 +69,15 @@ const Activities = {
     update: (activity: Activity) => requests.put<void>(`/activities/${activity.id}`, activity)
 }
 
+const Account = {
+    current: () => requests.get<IUser>('/account'),
+    login: (user: IUserFormValues) => requests.post<IUser>('/account/login', user),
+    register: (user: IUserFormValues) => requests.post<IUser>('/account/register', user) 
+}
+
 const agent = {
-    Activities
+    Activities,
+    Account
 }
 
 export default agent;
